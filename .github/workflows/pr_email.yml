@@ -17,10 +17,19 @@ jobs:
           password: ${{secrets.EMAIL_PASSWORD}}
           subject: New PR opened in ${{github.repository}}
           body: |
-            A new pull request has been opened by ${{github.actor}}.
+            A new pull request has been opened by ${{github.actor}} at ${{ github.event.pull_request.created_at }}.
             
             PR Title: ${{github.event.pull_request.title}}
             PR Description: ${{github.event.pull_request.body}}
+
+            Source Branch: ${{ github.event.pull_request.head.ref }}
+            Target Branch: ${{ github.event.pull_request.base.ref }}
+
+            PR Details:
+            - Changed Files: ${{ github.event.pull_request.changed_files }}
+            - Additions: +${{ github.event.pull_request.additions }}
+            - Deletions: -${{ github.event.pull_request.deletions }}
+            - Commits: ${{ github.event.pull_request.commits }}
             
             You can view the PR here: ${{github.event.pull_request.html_url}}
           to: ${{secrets.EMAIL_RECIPIENTS}}
